@@ -1,0 +1,22 @@
+.custom-radio {
+    .custom-control-label {
+        &::after {
+            transition: background-size 0.15s ease-in-out;
+            background-size: 0%;
+            background-image: $custom-radio-indicator-icon-checked;
+        }
+    }
+
+    .custom-control-input:checked {
+        &~.custom-control-label {
+            &::before {
+                background-color: $custom-radio-checked-background-color;
+            }
+
+            &::after {
+                transition: background-size 0.15s ease-in-out;
+                background-size: 80%;
+            }
+        }
+    }
+}
