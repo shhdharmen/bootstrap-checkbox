@@ -10,6 +10,10 @@ cover_image: https://dev-to-uploads.s3.amazonaws.com/i/mmuj3n0kdf9c9fvmes8o.png
 
 I have created a repo called [bootstrap-checkbox](https://github.com/shhdharmen/bootstrap-checkbox). You can simply get started from that, files to check for are: `src\styles\abstracts\_functions.scss`, `src\styles\abstracts\_variables.scss`, `src\styles\components\_checkbox.scss` and `src\styles\components\_radio.scss`.
 
+You can see the final output at [https://shhdharmen.github.io/bootstrap-checkbox/](https://shhdharmen.github.io/bootstrap-checkbox/) which will look like below:
+
+![Output](https://dev-to-uploads.s3.amazonaws.com/i/lu6k6zmtdy3jtdlid6jd.gif)
+
 # Bootstrap
 
 [Bootstrap](https://getbootstrap.com/), I use it, you use and I guess every web developer must have used it in their career. In fact, according to [State of CSS 2019](https://2019.stateofcss.com/), Bootstrap is the framework which has most awareness among developers.
@@ -245,3 +249,7 @@ You can see the final output at [https://shhdharmen.github.io/bootstrap-checkbox
 We saw how easy it is to change look and feel of checkboxes and radio buttons in bootstrap, thanks to it's sass implementation. Let me know how you've utilized bootstrap's themes using sass/scss variables/function/mixins in your project. And if you want to start now, [bootstrap-theme-kit](https://github.com/shhdharmen/bootstrap-theme-kit) will surely come handy.
 
 You can reach out to me on twitter [@shhdharmen](https://twitter.com/shhdharmen) and on github [shhdharmen](https://github.com/shhdharmen).
+
+# Credit
+
+A special thanks to [https://undraw.co/](https://undraw.co/) for cover image.
