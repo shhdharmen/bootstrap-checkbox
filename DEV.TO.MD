@@ -42,7 +42,9 @@ You can simply replace all body content in html file, with below:
       <p class="text-gray">Checkbox</p>
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="customCheck1" />
-        <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+        <label class="custom-control-label" for="customCheck1"
+          >Check this custom checkbox</label
+        >
       </div>
       <div class="custom-control custom-checkbox mb-5">
         <input
@@ -51,7 +53,9 @@ You can simply replace all body content in html file, with below:
           id="customCheck2"
           checked
         />
-        <label class="custom-control-label" for="customCheck2">Or this one</label>
+        <label class="custom-control-label" for="customCheck2"
+          >Or this one</label
+        >
       </div>
       <p class="text-gray">Radios</p>
       <div class="custom-control custom-radio">
@@ -62,7 +66,9 @@ You can simply replace all body content in html file, with below:
           class="custom-control-input"
           checked
         />
-        <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
+        <label class="custom-control-label" for="customRadio1"
+          >Toggle this custom radio</label
+        >
       </div>
       <div class="custom-control custom-radio">
         <input
@@ -71,7 +77,9 @@ You can simply replace all body content in html file, with below:
           name="customRadio"
           class="custom-control-input"
         />
-        <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
+        <label class="custom-control-label" for="customRadio2"
+          >Or toggle this other custom radio</label
+        >
       </div>
     </div>
   </div>
@@ -79,9 +87,32 @@ You can simply replace all body content in html file, with below:
 </body>
 ```
 
-### 3. Variables
+### 3. SCSS
 
-This is very important.
+Let's edit our style files.
+
+#### 3.1 Functions
+
+We will need one function, let's add it in `src\styles\abstracts\_functions.scss`:
+
+```scss
+// src\styles\abstracts\_functions.scss
+
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index +
+            str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+```
+
+From code it's pretty clear that it can used to find replace.
+
+#### 3.2 Variables
 
 Bootstrap handles everything through scss variables. So, to modify look and feel, we need to handle those variables in `src\styles\abstracts\_variables.scss`. Let's replace it's content:
 
@@ -102,16 +133,15 @@ $custom-control-indicator-border-width: 0.125rem;
 $custom-control-indicator-checked-color: $white;
 $custom-control-indicator-checked-bg: $primary;
 $custom-control-indicator-checked-border-color: $primary;
-$custom-forms-transition: background-color 0.15s ease-in-out,
-border-color 0.15s ease-in-out,
-box-shadow 0.15s ease-in-out,
-background-size 5s ease-in-out;
+$custom-forms-transition: background-color 0.15s ease-in-out, border-color 0.15s
+    ease-in-out, box-shadow 0.15s ease-in-out, background-size 5s ease-in-out;
 
 // 3. Checkbox
 $custom-checkbox-indicator-border-radius: 0.125rem;
-$custom-checkbox-indicator-icon-checked: str-replace(url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3e%3cpath fill='#{$custom-control-indicator-checked-color}' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z'/%3e%3c/svg%3e"),
-    "#",
-    "%23"
+$custom-checkbox-indicator-icon-checked: str-replace(
+  url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3e%3cpath fill='#{$custom-control-indicator-checked-color}' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z'/%3e%3c/svg%3e"),
+  "#",
+  "%23"
 );
 
 // 4. Radio
@@ -123,6 +153,93 @@ $custom-radio-checked-background-color: $white;
 $custom-radio-indicator-icon-checked: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$custom-radio-indicator-icon-checked-color}'/></svg>");
 ```
 
-# Credits
+Let's see what's happening above:
 
-Generated using [Bootstrap theme kit](https://shhdharmen.github.io/bootstrap-theme-kit/).
+1. Colors - These are set of colors which will be used by bootstrap. You can change the colors with your choice, and whole theme will be changed.
+2. Custom Form Control - Bootstrap has [Custom Form Controls](https://getbootstrap.com/docs/4.4/components/forms/#custom-forms) for more customizations and cross browser consistency. We have modified related variables to achieve desired output.
+3. Checkbox - This variables are just related to checkbox. Note how we easily changed the icon for checkmark. Here we have also utilized `str-replace` function from `src\styles\abstracts\_functions.scss`, so that it gives us url friendly string.
+4. Radio - As bootstrap uses common custom form control variables for both, checkbox and radio, we had to introduce 2 new variables for our need. Also note the easiness of changing the icon for checkmark.
+
+#### 3.3 Checkbox
+
+To finally give a last touch-up, we need to change content of `src\styles\components\_checkbox.scss` with below:
+
+```scss
+// src\styles\components\_checkbox.scss
+
+.custom-checkbox {
+    .custom-control-label {
+        &::before {
+            border-width: 2px;
+            border-radius: 2px;
+        }
+
+        &::after {
+            transition: background-size 0.15s ease-in-out;
+            background-repeat: no-repeat;
+            background-position-y: center;
+            background-position-x: 50%;
+            background-size: 0%;
+        }
+    }
+
+    .custom-control-input:checked {
+        &~.custom-control-label {
+            &::after {
+                transition: background-size 0.15s ease-in-out;
+                background-size: 100%;
+            }
+        }
+    }
+
+}
+```
+
+You can clearly see that we have optimized transition effects to give nice animation effects.
+
+#### 3.4 Radio
+
+```scss
+// src\styles\components\_radio.scss
+
+.custom-radio {
+    .custom-control-label {
+        &::after {
+            transition: background-size 0.15s ease-in-out;
+            background-size: 0%;
+        }
+    }
+
+    .custom-control-input:checked {
+        &~.custom-control-label {
+            &::before {
+                background-color: $custom-radio-checked-background-color;
+            }
+
+            &::after {
+                transition: background-size 0.15s ease-in-out;
+                background-size: 80%;
+            }
+        }
+    }
+}
+```
+
+#### 3.5 Order
+
+Now, we have changed the files. but, order of import is also very important. If you have cloned [bootstrap-theme-kit](https://github.com/shhdharmen/bootstrap-theme-kit) and started the project, you're good to. Otherwise, please make sure you have following order of import in your main scss file:
+
+1. functions
+2. variables
+3. checkbox
+4. radio
+
+### 4. Output
+
+![Output](https://dev-to-uploads.s3.amazonaws.com/i/lu6k6zmtdy3jtdlid6jd.gif)
+
+# Conclusion
+
+We saw how easy it is to change look and feel of checkboxes and radio buttons in bootstrap, thanks to it's sass implementation. Let me know how you've utilized bootstrap's themes using sass/scss variables/function/mixins in your project. And if you want to start now, [bootstrap-theme-kit](https://github.com/shhdharmen/bootstrap-theme-kit) will surely come handy.
+
+You can reach out to me on twitter [@shhdharmen](https://twitter.com/shhdharmen) and on github [shhdharmen](https://github.com/shhdharmen).

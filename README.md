@@ -1,5 +1,7 @@
 # Bootstrap Custom Checkboxes and Radios
 
+This repo is created for my article [Create custom checkboxes and radios in Bootstrap]().
+
 ## 🚀 Getting Started
 
 ### ☑️ Minimum Requirements
