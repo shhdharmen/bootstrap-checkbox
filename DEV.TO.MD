@@ -238,6 +238,8 @@ Now, we have changed the files. but, order of import is also very important. If 
 
 ![Output](https://dev-to-uploads.s3.amazonaws.com/i/lu6k6zmtdy3jtdlid6jd.gif)
 
+You can see the final output at [https://shhdharmen.github.io/bootstrap-checkbox/](https://shhdharmen.github.io/bootstrap-checkbox/).
+
 # Conclusion
 
 We saw how easy it is to change look and feel of checkboxes and radio buttons in bootstrap, thanks to it's sass implementation. Let me know how you've utilized bootstrap's themes using sass/scss variables/function/mixins in your project. And if you want to start now, [bootstrap-theme-kit](https://github.com/shhdharmen/bootstrap-theme-kit) will surely come handy.
